@@ -2,7 +2,6 @@ import { ProductsType } from "@/types";
 import ProductCard from "./ProductCard";
 import Categories from "./Categories";
 
-import Image from "next/image";
 import Filter from "./Filter";
 import Link from "next/link";
 

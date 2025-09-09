@@ -1,4 +1,4 @@
-import { Bell, Home, ShoppingCart } from "lucide-react";
+import { Bell, Home } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import SearchBar from "./SearchBar";

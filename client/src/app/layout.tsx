@@ -1,10 +1,10 @@
 <style>
   @import
-  url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&display=swap');
+  url(&#x27;https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@100..900&display=swap&#x27;);
 </style>;
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans_Khmer } from "next/font/google";
+import { Noto_Sans_Khmer } from "next/font/google";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";

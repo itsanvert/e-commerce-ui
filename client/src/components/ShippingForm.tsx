@@ -3,7 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import router from "next/router";
+
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -33,10 +33,6 @@ const ShippingForm = ({
     resolver: zodResolver(shippingFormSchema),
   });
 
-  const onSubmit = (data: ShippingFormInputs) => {
-    console.log("📦 Shipping Data:", data);
-    // TODO: save to state or call API
-  };
   const router = useRouter();
   const handleShippingForm: SubmitHandler<ShippingFormInputs> = (data) => {
     setShippingForm(data);

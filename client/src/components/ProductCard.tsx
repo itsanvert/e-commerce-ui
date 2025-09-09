@@ -31,8 +31,8 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     addToCart({
       ...product,
       quantity: 1,
-      selectSize: productTypes.size,
-      selectColor: productTypes.color,
+      selectedSize: productTypes.size,
+      selectedColor: productTypes.color,
     });
     toast.success("Product added to cart");
   };

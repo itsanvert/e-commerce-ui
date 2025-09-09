@@ -2,10 +2,11 @@
 
 import useCartStore from "@/app/stores/cartStore";
 import { ShoppingCart } from "lucide-react";
-import { useState } from "react";
 
 const ShoppingCartIcon = () => {
-  const {cart} = useCartStore();
+  const { cart, hasHydrated } = useCartStore();
+
+  if (!hasHydrated) return null;
   return (
     <div className="relative">
       <ShoppingCart className="w-4 h-4 text-gray-400  " />

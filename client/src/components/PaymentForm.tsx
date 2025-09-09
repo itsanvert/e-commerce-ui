@@ -81,11 +81,11 @@ const PaymentForm = () => {
           id="expiryDate"
           type="text"
           placeholder="12/25"
-          {...register("expiryDate")}
+          {...register("expirationDate")}
           className="border border-gray-300 rounded-md py-2 px-3 outline-none text-sm"
         />
-        {errors.expiryDate && (
-          <p className="text-red-500 text-xs">{errors.expiryDate.message}</p>
+        {errors.expirationDate && (
+          <p className="text-red-500 text-xs">{errors.expirationDate.message}</p>
         )}
       </div>
 

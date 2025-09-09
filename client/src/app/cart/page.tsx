@@ -1,8 +1,9 @@
 "use client";
 
+import { Suspense } from "react";
 import PaymentForm from "@/components/PaymentForm";
 import ShippingForm from "@/components/ShippingForm";
-import { CartItemsType, ShippingFormInputs } from "@/types";
+import { ShippingFormInputs } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -66,7 +67,7 @@ const steps = [
   { id: 3, title: "វិធីបង់ប្រាក់" },
 ];
 
-const CartPage = () => {
+const CartPageContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
@@ -128,7 +129,7 @@ const CartPage = () => {
                 {/* IMAGE */}
                 <div className="relative w-24 h-24 bg-gray-50 rounded-lg overflow-hidden">
                   <Image
-                    src={item.images[item.selectColor]}
+                    src={item.images[item.selectedColor]}
                     alt={item.name}
                     fill
                     className="object-cover"
@@ -139,8 +140,8 @@ const CartPage = () => {
                 <div className="flex flex-col flex-1">
                   <p className="text-sm font-medium">{item.name}</p>
                   <p className="text-xs text-gray-500">
-                    បរិមាណ: {item.quantity} | ទំហំ: {item.selectSize} | ពណ៌:{" "}
-                    {item.selectColor}
+                    បរិមាណ: {item.quantity} | ទំហំ: {item.selectedSize} | ពណ៌:{" "}
+                    {item.selectedColor}
                   </p>
                   <p className="text-sm font-semibold">
                     ${item.price.toFixed(2)}
@@ -207,4 +208,10 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default function CartPage() {
+  return (
+    <Suspense>
+      <CartPageContent />
+    </Suspense>
+  );
+}
