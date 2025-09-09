@@ -2,62 +2,63 @@
 
 import PaymentForm from "@/components/PaymentForm";
 import ShippingForm from "@/components/ShippingForm";
-import { CartItemsType } from "@/types";
+import { CartItemsType, ShippingFormInputs } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import useCartStore from "../stores/cartStore";
 
 // TEMPORARY DEMO DATA
-const cartItems: CartItemsType = [
-  {
-    id: 1,
-    name: "អាវ Adidas CoreFit",
-    shortDescription: "អាវកីឡា ស្រួលស្រាល និងបែបម៉ូត។",
-    description: "អាវកីឡា មានគុណភាពខ្ពស់ សាកសមសម្រាប់ប្រើប្រាស់ប្រចាំថ្ងៃ។",
-    price: 39.9,
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    colors: ["ប្រផេះ", "ស្វាយ", "បៃតង"],
-    images: {
-      ប្រផេះ: "/products/1g.png",
-      ស្វាយ: "/products/1p.png",
-      បៃតង: "/products/1gr.png",
-    },
-    quantity: 1,
-    selectSize: "M",
-    selectColor: "ប្រផេះ",
-  },
-  {
-    id: 2,
-    name: "អាវក្រៅ Puma Ultra Warm",
-    shortDescription: "អាវក្រៅក្តៅសមរម្យសម្រាប់រដូវត្រជាក់។",
-    description: "មានរចនាបទស្អាត ក្តៅ និងងាយស្រួលពាក់។",
-    price: 59.9,
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["ប្រផេះ", "បៃតង"],
-    images: { ប្រផេះ: "/products/2g.png", បៃតង: "/products/2gr.png" },
-    quantity: 1,
-    selectSize: "L",
-    selectColor: "ប្រផេះ",
-  },
-  {
-    id: 3,
-    name: "អាវ Nike Air Essentials",
-    shortDescription: "អាវពូលឡូវ័រ សំរាប់ប្រើប្រាស់កំសាន្ត និងហាត់ប្រាណ។",
-    description: "ស្រាល ត្រជាក់ មានរចនាបទទំនើប។",
-    price: 69.9,
-    sizes: ["S", "M", "L"],
-    colors: ["បៃតង", "ខៀវ", "ខ្មៅ"],
-    images: {
-      បៃតង: "/products/3gr.png",
-      ខៀវ: "/products/3b.png",
-      ខ្មៅ: "/products/3bl.png",
-    },
-    quantity: 1,
-    selectSize: "L",
-    selectColor: "បៃតង",
-  },
-];
+// const cartItems: CartItemsType = [
+//   {
+//     id: 1,
+//     name: "អាវ Adidas CoreFit",
+//     shortDescription: "អាវកីឡា ស្រួលស្រាល និងបែបម៉ូត។",
+//     description: "អាវកីឡា មានគុណភាពខ្ពស់ សាកសមសម្រាប់ប្រើប្រាស់ប្រចាំថ្ងៃ។",
+//     price: 39.9,
+//     sizes: ["S", "M", "L", "XL", "XXL"],
+//     colors: ["ប្រផេះ", "ស្វាយ", "បៃតង"],
+//     images: {
+//       ប្រផេះ: "/products/1g.png",
+//       ស្វាយ: "/products/1p.png",
+//       បៃតង: "/products/1gr.png",
+//     },
+//     quantity: 1,
+//     selectSize: "M",
+//     selectColor: "ប្រផេះ",
+//   },
+//   {
+//     id: 2,
+//     name: "អាវក្រៅ Puma Ultra Warm",
+//     shortDescription: "អាវក្រៅក្តៅសមរម្យសម្រាប់រដូវត្រជាក់។",
+//     description: "មានរចនាបទស្អាត ក្តៅ និងងាយស្រួលពាក់។",
+//     price: 59.9,
+//     sizes: ["S", "M", "L", "XL"],
+//     colors: ["ប្រផេះ", "បៃតង"],
+//     images: { ប្រផេះ: "/products/2g.png", បៃតង: "/products/2gr.png" },
+//     quantity: 1,
+//     selectSize: "L",
+//     selectColor: "ប្រផេះ",
+//   },
+//   {
+//     id: 3,
+//     name: "អាវ Nike Air Essentials",
+//     shortDescription: "អាវពូលឡូវ័រ សំរាប់ប្រើប្រាស់កំសាន្ត និងហាត់ប្រាណ។",
+//     description: "ស្រាល ត្រជាក់ មានរចនាបទទំនើប។",
+//     price: 69.9,
+//     sizes: ["S", "M", "L"],
+//     colors: ["បៃតង", "ខៀវ", "ខ្មៅ"],
+//     images: {
+//       បៃតង: "/products/3gr.png",
+//       ខៀវ: "/products/3b.png",
+//       ខ្មៅ: "/products/3bl.png",
+//     },
+//     quantity: 1,
+//     selectSize: "L",
+//     selectColor: "បៃតង",
+//   },
+// ];
 
 const steps = [
   { id: 1, title: "កន្សោមទំនិញ" },
@@ -68,12 +69,13 @@ const steps = [
 const CartPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [shippingForm, setShippingForm] = useState<boolean>(false);
+  const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
 
   const activeStep = parseInt(searchParams.get("step") || "1");
+  const { cart, removeFromCart } = useCartStore();
 
   // គណនាតម្លៃ
-  const subtotal = cartItems.reduce(
+  const subtotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
@@ -118,9 +120,9 @@ const CartPage = () => {
         {/* LEFT SIDE */}
         <div className="w-full lg:w-7/12 shadow-lg border border-gray-100 p-8 rounded-lg flex flex-col gap-8">
           {activeStep === 1 &&
-            cartItems.map((item) => (
+            cart.map((item, index) => (
               <div
-                key={item.id}
+                key={`${item.id}-${index}`}
                 className="flex items-center justify-between gap-6"
               >
                 {/* IMAGE */}
@@ -147,7 +149,10 @@ const CartPage = () => {
 
                 {/* DELETE */}
                 <button className="w-8 h-8 bg-red-100 hover:bg-red-200 transition-all duration-300 text-red-500 rounded-full flex items-center justify-center">
-                  <Trash2 className="w-3 h-3" />
+                  <Trash2
+                    className="w-3 h-3"
+                    onClick={() => removeFromCart(item)}
+                  />
                 </button>
               </div>
             ))}

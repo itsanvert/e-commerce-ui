@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import useCartStore from "@/app/stores/cartStore";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   const [productTypes, setProductTypes] = useState({
@@ -12,6 +14,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     color: product.colors[0],
   });
 
+  const { addToCart } = useCartStore();
   const handleProductTypes = ({
     type,
     value,
@@ -23,6 +26,15 @@ const ProductCard = ({ product }: { product: ProductType }) => {
       ...prev,
       [type]: value,
     }));
+  };
+  const handleAddToCart = () => {
+    addToCart({
+      ...product,
+      quantity: 1,
+      selectSize: productTypes.size,
+      selectColor: productTypes.color,
+    });
+    toast.success("Product added to cart");
   };
 
   return (
@@ -71,7 +83,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
             <div className="flex items-center gap-2">
               {product.colors.map((color) => (
                 <div
-                  key={color}
+                  key={`${product.id}-${color}`}
                   className={`cursor-pointer border ${
                     productTypes.color === color
                       ? "border-gray-400"
@@ -94,7 +106,10 @@ const ProductCard = ({ product }: { product: ProductType }) => {
         {/* PRICE AND TO CART BUTTON */}
         <div className="flex items-center justify-between">
           <p className="font-medium">${product.price.toFixed(2)}</p>
-          <button className="ring ring-gray-300 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-2">
+          <button
+            onClick={handleAddToCart}
+            className="ring ring-gray-300 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-2"
+          >
             <ShoppingCart className="w-4 h-4" />
             Add to Cart
           </button>

@@ -27,7 +27,10 @@ const Navbar = () => {
           <Home className="w-4 h-4 text-gray-600  " />
         </Link>
         <Bell className="w-4 h-4 text-gray-600  " />
-        <ShoppingCartIcon />
+        <Link href={`/cart`}>
+          <ShoppingCartIcon />
+        </Link>
+
         <Link href="/login" className="text-gray-600 font-bold  ">
           ចូលគណនី
         </Link>
