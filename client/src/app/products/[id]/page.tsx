@@ -19,7 +19,18 @@ const product: ProductType = {
     green: "/products/1gr.png",
   },
 };
-
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}) => {
+  // TODO:get the product from 
+  // TEMPORARY
+  return {
+    title: product.name,
+    description: product.shortDescription,
+  };
+};
 const ProductDetail = async ({
   searchParams,
 }: {
