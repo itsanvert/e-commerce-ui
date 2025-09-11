@@ -3,7 +3,7 @@ import AppBarChart from "@/components/AppBarChart";
 import AppPieChart from "@/components/AppPieChart";
 import CardList from "@/components/CardList";
 import TodoList from "@/components/TodoList";
-import { todoItems } from "@/lib/data";
+import { popularProducts, todoItems } from "@/lib/data";
 import { Card } from "@/components/ui/card";
 import { latestTransactions, popularContent } from "@/lib/data";
 
@@ -14,7 +14,7 @@ const Homepage = () => {
         <AppBarChart />
       </div>
       <div className="bg-primary-foreground p-4 rounded-lg">
-        <CardList items={latestTransactions} title="Latest Transactions" />
+        <CardList  items={latestTransactions} title="Latest Transactions" />
       </div>
       <div className="bg-primary-foreground p-4 rounded-lg">
         <AppPieChart />
@@ -26,7 +26,7 @@ const Homepage = () => {
         <AppAreaChart />
       </div>
       <div className="bg-primary-foreground p-4 rounded-lg">
-        <CardList items={popularContent} title="Popular Content" />
+        <CardList items={popularProducts} title="Popular Products" />
       </div>
     </div>
   );

@@ -12,19 +12,21 @@ import {
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
-export type Payment = {
-  id: string;
-  userid: string;
-
-  amount: number;
-  fullname: string;
-  email: string;
-  status: "pending" | "processing" | "success" | "failed";
+export type Product = {
+  id: string | number;
+  name: string;
+  price: number;
+  shortDescription: string;
+  description: string;
+  sizes: string[];
+  colors: string[];
+  images: Record<string, string>;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Product>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -44,50 +46,64 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "fullname",
+    accessorKey: "image",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Username
+          Image
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const product = row.original;
+
       return (
-        <div
-          className={cn(`p-1 rounded-md w-max text-xs `, {
-            "bg-green-500/80 text-white": status === "success",
-            "bg-yellow-500/80 text-white": status === "pending",
-            "bg-red-500/80 text-white": status === "failed",
-          })}
-        >
-          {status as string}
+        <div className="w-9 h-9 rounded-full relative">
+          <Image
+            src={product.images[product.colors[0]]}
+            alt={product.name}
+            fill
+            className="rounded-full object-cover"
+          />
         </div>
       );
     },
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "price",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "shortDescription",
+    header: "Description",
   },
   {
     accessorKey: "amount",
@@ -117,7 +133,7 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const product = row.original;
 
       return (
         <DropdownMenu>
@@ -130,15 +146,16 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() =>
+                navigator.clipboard.writeText(product.id.toString())
+              }
             >
-              Copy payment ID
+              Copy product ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/users/${payment.userid}`}>View customer</Link>
+              <Link href={`/products/${product.id}`}>View product</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

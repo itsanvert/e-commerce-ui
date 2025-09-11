@@ -1,293 +1,275 @@
-// app/users/page.tsx
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-  BadgeCheck,
-  Shield,
-  MoreHorizontal,
-  Search,
-  UserPlus,
-  Filter,
-} from "lucide-react";
+import React from "react";
 
-// Sample users data - replace with your actual data source
-const users = [
-  {
-    id: 1,
-    username: "john.doe",
-    name: "John Doe",
-    email: "john.doe@gmail.com",
-    role: "Admin",
-    status: "Active",
-    avatar: "https://github.com/shadcn.png",
-    joinedDate: "2025.01.01",
-    badges: ["verified", "admin"],
-  },
-  {
-    id: 2,
-    username: "jane.smith",
-    name: "Jane Smith",
-    email: "jane.smith@gmail.com",
-    role: "User",
-    status: "Active",
-    avatar: "https://github.com/shadcn.png",
-    joinedDate: "2025.01.15",
-    badges: ["verified"],
-  },
-  {
-    id: 3,
-    username: "mike.johnson",
-    name: "Mike Johnson",
-    email: "mike.johnson@gmail.com",
-    role: "Moderator",
-    status: "Inactive",
-    avatar: "https://github.com/shadcn.png",
-    joinedDate: "2024.12.20",
-    badges: ["verified", "moderator"],
-  },
-  {
-    id: 4,
-    username: "sarah.wilson",
-    name: "Sarah Wilson",
-    email: "sarah.wilson@gmail.com",
-    role: "User",
-    status: "Active",
-    avatar: "https://github.com/shadcn.png",
-    joinedDate: "2025.01.20",
-    badges: ["verified"],
-  },
-];
+import { columns, User } from "./columns";
+import { DataTable } from "./data-table";
 
-const UsersPage = () => {
-  const getRoleBadgeVariant = (role: string) => {
-    switch (role.toLowerCase()) {
-      case "admin":
-        return "destructive";
-      case "moderator":
-        return "secondary";
-      default:
-        return "outline";
-    }
-  };
+const getData = async (): Promise<User[]> => {
+  return [
+    {
+      id: "728ed521",
+      avatar: "/users/1.png",
+      status: "active",
+      fullName: "John Doe",
+      email: "johndoe@gmail.com",
+    },
+    {
+      id: "728ed522",
+      avatar: "/users/2.png",
+      status: "active",
+      fullName: "Jane Doe",
+      email: "janedoe@gmail.com",
+    },
+    {
+      id: "728ed523",
+      avatar: "/users/3.png",
+      status: "inactive",
+      fullName: "Mike Galloway",
+      email: "mikegalloway@gmail.com",
+    },
+    {
+      id: "728ed524",
+      avatar: "/users/4.png",
+      status: "inactive",
+      fullName: "Minerva Robinson",
+      email: "minerbarobinson@gmail.com",
+    },
+    {
+      id: "728ed525",
+      avatar: "/users/5.png",
+      status: "active",
+      fullName: "Mable Clayton",
+      email: "mableclayton@gmail.com",
+    },
+    {
+      id: "728ed526",
+      avatar: "/users/6.png",
+      status: "active",
+      fullName: "Nathan McDaniel",
+      email: "nathanmcdaniel@gmail.com",
+    },
+    {
+      id: "728ed527",
+      avatar: "/users/7.png",
+      status: "active",
+      fullName: "Myrtie Lamb",
+      email: "myrtielamb@gmail.com",
+    },
+    {
+      id: "728ed528",
+      avatar: "/users/8.png",
+      status: "active",
+      fullName: "Leona Bryant",
+      email: "leonabryant@gmail.com",
+    },
+    {
+      id: "728ed529",
+      avatar: "/users/9.png",
+      status: "inactive",
+      fullName: "Aaron Willis",
+      email: "aaronwillis@gmail.com",
+    },
+    {
+      id: "728ed52a",
+      avatar: "/users/10.png",
+      status: "active",
+      fullName: "Joel Keller",
+      email: "joelkeller@gmail.com",
+    },
+    {
+      id: "728ed52b",
+      avatar: "/users/11.png",
+      status: "active",
+      fullName: "Daniel Ellis",
+      email: "danielellis@gmail.com",
+    },
+    {
+      id: "728ed52c",
+      avatar: "/users/12.png",
+      status: "active",
+      fullName: "Gordon Kennedy",
+      email: "gordonkennedy@gmail.com",
+    },
+    {
+      id: "728ed52d",
+      avatar: "/users/13.png",
+      status: "inactive",
+      fullName: "Emily Hoffman",
+      email: "emilyhoffman@gmail.com",
+    },
+    {
+      id: "728ed52e",
+      avatar: "/users/14.png",
+      status: "active",
+      fullName: "Jeffery Garrett",
+      email: "jefferygarrett@gmail.com",
+    },
+    {
+      id: "728ed52f",
+      avatar: "/users/15.png",
+      status: "active",
+      fullName: "Ralph Baker",
+      email: "ralphbaker@gmail.com",
+    },
+    {
+      id: "728ed52g",
+      avatar: "/users/16.png",
+      status: "inactive",
+      fullName: "Seth Fields",
+      email: "sethfields@gmail.com",
+    },
+    {
+      id: "728ed52h",
+      avatar: "/users/17.png",
+      status: "active",
+      fullName: "Julia Webb",
+      email: "juliawebb@gmail.com",
+    },
+    {
+      id: "728ed52i",
+      avatar: "/users/18.png",
+      status: "active",
+      fullName: "Gary Banks",
+      email: "garybanks@gmail.com",
+    },
+    {
+      id: "728ed52j",
+      avatar: "/users/19.png",
+      status: "inactive",
+      fullName: "Flora Chambers",
+      email: "florachambers@gmail.com",
+    },
+    {
+      id: "728ed52k",
+      avatar: "/users/20.png",
+      status: "active",
+      fullName: "Steve Hanson",
+      email: "stevehanson@gmail.com",
+    },
+    {
+      id: "728ed52l",
+      avatar: "/users/21.png",
+      status: "active",
+      fullName: "Lola Robinson",
+      email: "lolarobinson@gmail.com",
+    },
+    {
+      id: "728ed52m",
+      avatar: "/users/22.png",
+      status: "active",
+      fullName: "Ethel Waters",
+      email: "ethelwaters@gmail.com",
+    },
+    {
+      id: "728ed52n",
+      avatar: "/users/23.png",
+      status: "inactive",
+      fullName: "Grace Edwards",
+      email: "graceedwards@gmail.com",
+    },
+    {
+      id: "728ed52o",
+      avatar: "/users/24.png",
+      status: "active",
+      fullName: "Sallie Wong",
+      email: "salliewong@gmail.com",
+    },
+    {
+      id: "728ed52p",
+      avatar: "/users/25.png",
+      status: "active",
+      fullName: "Bryan Gutierrez",
+      email: "bryangutierrez@gmail.com",
+    },
+    {
+      id: "728ed52q",
+      avatar: "/users/26.png",
+      status: "active",
+      fullName: "Erik Rice",
+      email: "erikrice@gmail.com",
+    },
+    {
+      id: "728ed52r",
+      avatar: "/users/27.png",
+      status: "active",
+      fullName: "Jordan Atkins",
+      email: "jordanatkins@gmail.com",
+    },
+    {
+      id: "728ed52s",
+      avatar: "/users/28.png",
+      status: "inactive",
+      fullName: "Bill Brewer",
+      email: "billbrewer@gmail.com",
+    },
+    {
+      id: "728ed52t",
+      avatar: "/users/29.png",
+      status: "active",
+      fullName: "Edwin Morris",
+      email: "edwinmorris@gmail.com",
+    },
+    {
+      id: "728ed52u",
+      avatar: "/users/30.png",
+      status: "active",
+      fullName: "Harold Becker",
+      email: "haroldbecker@gmail.com",
+    },
+    {
+      id: "728ed52v",
+      avatar: "/users/31.png",
+      status: "active",
+      fullName: "Hannah Rodriguez",
+      email: "hannahrodriguez@gmail.com",
+    },
+    {
+      id: "728ed52w",
+      avatar: "/users/32.png",
+      status: "active",
+      fullName: "Zachary Beck",
+      email: "zacharybeck@gmail.com",
+    },
+    {
+      id: "728ed52x",
+      avatar: "/users/33.png",
+      status: "inactive",
+      fullName: "Frances Potter",
+      email: "francespotter@gmail.com",
+    },
+    {
+      id: "728ed52y",
+      avatar: "/users/34.png",
+      status: "active",
+      fullName: "Raymond Murray",
+      email: "raymondmurray@gmail.com",
+    },
+    {
+      id: "728ed52z",
+      avatar: "/users/35.png",
+      status: "active",
+      fullName: "Adam Sherman",
+      email: "adamsherman@gmail.com",
+    },
+    {
+      id: "728ed521f",
+      avatar: "/users/36.png",
+      status: "active",
+      fullName: "Anne Cruz",
+      email: "annecruz@gmail.com",
+    },
+  ];
+};
 
-  const getStatusBadgeVariant = (status: string) => {
-    return status.toLowerCase() === "active" ? "default" : "secondary";
-  };
-
+const UserPage = async () => {
+  const data = await getData();
   return (
-    <div className="space-y-6">
-      {/* Breadcrumb */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Users</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Users</h1>
-          <p className="text-muted-foreground">
-            Manage and view all users in your system
-          </p>
-        </div>
-        <Button>
-          <UserPlus className="h-4 w-4 mr-2" />
-          Add User
-        </Button>
+    <div className="">
+      <div className="mb-8  px-4 py-2  rounded-md">
+        <h1 className="font-semibold"> All Users</h1>
       </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{users.length}</div>
-            <p className="text-xs text-muted-foreground">+2 from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter((u) => u.status === "Active").length}
-            </div>
-            <p className="text-xs text-muted-foreground">+1 from last week</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Admins</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {users.filter((u) => u.role === "Admin").length}
-            </div>
-            <p className="text-xs text-muted-foreground">No change</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              New This Month
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-muted-foreground">
-              +50% from last month
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters and Search */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search users..." className="pl-10" />
-        </div>
-        <Button variant="outline">
-          <Filter className="h-4 w-4 mr-2" />
-          Filter
-        </Button>
-      </div>
-
-      {/* Users Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>All Users</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>User</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Joined</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>
-                    <Link
-                      href={`/users/${user.username}`}
-                      className="flex items-center gap-3 hover:underline"
-                    >
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.avatar} alt={user.name} />
-                        <AvatarFallback>
-                          {user.name
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-medium flex items-center gap-2">
-                          {user.name}
-                          <div className="flex gap-1">
-                            {user.badges.includes("verified") && (
-                              <BadgeCheck className="h-3 w-3 text-blue-500" />
-                            )}
-                            {user.badges.includes("admin") && (
-                              <Shield className="h-3 w-3 text-green-600" />
-                            )}
-                          </div>
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          @{user.username}
-                        </div>
-                      </div>
-                    </Link>
-                  </TableCell>
-                  <TableCell className="text-sm">{user.email}</TableCell>
-                  <TableCell>
-                    <Badge variant={getRoleBadgeVariant(user.role)}>
-                      {user.role}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant={getStatusBadgeVariant(user.status)}>
-                      {user.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {user.joinedDate}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                          <Link href={`/users/${user.username}`}>
-                            View Profile
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={`/users/${user.username}/settings`}>
-                            Settings
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>Edit User</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
-                          Delete User
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <DataTable columns={columns} data={data}></DataTable>
     </div>
   );
 };
 
-export default UsersPage;
+export default UserPage;

@@ -10,22 +10,22 @@ import {
 } from "@/components/ui/chart";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  total: {
+    label: "Total",
     color: "var(--chart-1)",
   },
-  mobile: {
-    label: "Mobile",
+  successfully: {
+    label: "Successfully",
     color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: "January", total: 186, successfully: 80 },
+  { month: "February", total: 305, successfully: 200 },
+  { month: "March", total: 237, successfully: 120 },
+  { month: "April", total: 73, successfully: 190 },
+  { month: "May", total: 209, successfully: 130 },
+  { month: "June", total: 214, successfully: 140 },
 ];
 const AppBarChart = () => {
   return (
@@ -43,8 +43,8 @@ const AppBarChart = () => {
           />
           <ChartTooltip content={<ChartTooltipContent />} />
           <ChartLegend content={<ChartLegendContent />} />
-          <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-          <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+          <Bar dataKey="total" fill="var(--chart-1)" radius={4} />
+          <Bar dataKey="successfully" fill="var(--chart-2)" radius={4} />
         </BarChart>
       </ChartContainer>
     </div>

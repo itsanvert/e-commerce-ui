@@ -13,18 +13,18 @@ import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
-export type Payment = {
+export type User = {
   id: string;
-  userid: string;
+  avatar: string;
 
-  amount: number;
-  fullname: string;
+  fullName: string;
   email: string;
-  status: "pending" | "processing" | "success" | "failed";
+  status: "active" | "inactive";
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -44,7 +44,35 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "fullname",
+    accessorKey: "avatar",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Avatar
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const user = row.original;
+
+      return (
+        <div className="w-9 h-9 rounded-full relative">
+          <Image
+            src={user.avatar}
+            alt={user.fullName}
+            fill
+            className="rounded-full object-cover"
+          />
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "fullName",
     header: ({ column }) => {
       return (
         <Button
@@ -57,6 +85,7 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
   },
+
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -79,9 +108,8 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <div
           className={cn(`p-1 rounded-md w-max text-xs `, {
-            "bg-green-500/80 text-white": status === "success",
-            "bg-yellow-500/80 text-white": status === "pending",
-            "bg-red-500/80 text-white": status === "failed",
+            "bg-green-500/80 text-white": status === "active",
+            "bg-red-500/80 text-white": status === "inactive",
           })}
         >
           {status as string}
@@ -89,35 +117,11 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
   },
-  {
-    accessorKey: "amount",
-    header: ({ column }) => {
-      return (
-        <div className="text-right">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Amount
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const user = row.original;
 
       return (
         <DropdownMenu>
@@ -130,15 +134,15 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(user.id)}
             >
-              Copy payment ID
+              Copy user ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/users/${payment.userid}`}>View customer</Link>
+              <Link href={`/users/${user.id}`}>View user</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>View user details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

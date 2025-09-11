@@ -1,25 +1,15 @@
 import {
-  BarChart3,
-  Calendar,
-  ChevronDown,
-  ChevronRight,
-  ChevronUp,
-  CreditCard,
-  FileText,
-  FolderOpen,
   Home,
   Inbox,
-  LayoutDashboard,
-  LogOut,
-  MessageSquare,
-  Plus,
+  Calendar,
   Search,
   Settings,
-  Shield,
-  Star,
-  Users,
-  UserIcon,
-  Zap,
+  User2,
+  ChevronUp,
+  Plus,
+  Shirt,
+  User,
+  ShoppingBasket,
 } from "lucide-react";
 import {
   Sidebar,
@@ -34,9 +24,6 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarSeparator,
 } from "./ui/sidebar";
 import Link from "next/link";
@@ -47,272 +34,209 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
+import { Sheet, SheetTrigger } from "./ui/sheet";
+import AddOrder from "./AddOrder";
+import AddUser from "./ui/AddUser";
+import AddCategory from "./AppCategory";
+import AddProduct from "./AddProduct";
+// import AddOrder from "./AddOrder";
+// import AddUser from "./AddUser";
+// import AddCategory from "./AddCategory";
+// import AddProduct from "./AddProduct";
 
-// Types for better type safety
-interface MenuItem {
-  title: string;
-  url: string;
-  icon: React.ComponentType<{ className?: string }>;
-  badge?: string;
-  isActive?: boolean;
-}
-
-interface MenuGroup {
-  label: string;
-  items: MenuItem[];
-}
-
-// Main navigation items
-const mainNavItems: MenuItem[] = [
+const items = [
   {
-    title: "Dashboard",
+    title: "Home",
     url: "/",
     icon: Home,
-    isActive: true,
   },
   {
-    title: "Payments",
-    url: "/payments",
-    icon: CreditCard,
-  },
-  {
-    title: "Users",
-    url: "/users",
-    icon: Users,
-  },
-  {
-    title: "Test User",
-    url: "/users/test",
-    icon: UserIcon,
-  },
-  {
-    title: "Analytics",
-    url: "/analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Messages",
-    url: "/messages",
-    icon: MessageSquare,
-    badge: "12",
+    title: "Inbox",
+    url: "#",
+    icon: Inbox,
   },
   {
     title: "Calendar",
-    url: "/calendar",
+    url: "#",
     icon: Calendar,
   },
-];
-
-// Workspace items
-const workspaceItems: MenuItem[] = [
   {
-    title: "Team Members",
-    url: "/team",
-    icon: Users,
+    title: "Search",
+    url: "#",
+    icon: Search,
   },
   {
-    title: "Documents",
-    url: "/documents",
-    icon: FileText,
-  },
-  {
-    title: "Billing",
-    url: "/billing",
-    icon: CreditCard,
-  },
-];
-
-// Recent projects
-const recentProjects: MenuItem[] = [
-  {
-    title: "Website Redesign",
-    url: "/projects/website-redesign",
-    icon: Star,
-  },
-  {
-    title: "Mobile App",
-    url: "/projects/mobile-app",
-    icon: Zap,
-  },
-  {
-    title: "API Integration",
-    url: "/projects/api-integration",
-    icon: Shield,
+    title: "Settings",
+    url: "#",
+    icon: Settings,
   },
 ];
 
 const AppSidebar = () => {
   return (
-    <Sidebar collapsible="icon" side="left" className="border-r">
-      {/* HEADER */}
-      <SidebarHeader className="border-b border-sidebar-border">
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="py-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Link href="/" className="flex items-center gap-2 font-semibold">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Zap className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Shadcn Pro</span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    Enterprise
-                  </span>
-                </div>
+            <SidebarMenuButton asChild>
+              <Link href="/">
+                <Image src="/logo.svg" alt="logo" width={20} height={20} />
+                <span>Lama Dev</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
-      {/* CONTENT */}
+      <SidebarSeparator />
       <SidebarContent>
-        {/* Main Navigation */}
         <SidebarGroup>
-          <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
-          <SidebarMenu>
-            {mainNavItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={item.isActive}
-                  tooltip={item.title}
-                >
-                  <Link href={item.url} className="flex items-center gap-2">
-                    <item.icon className="size-4" />
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-                {item.badge && (
-                  <SidebarMenuBadge className="bg-red-500 text-white">
-                    {item.badge}
-                  </SidebarMenuBadge>
-                )}
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  {item.title === "Inbox" && (
+                    <SidebarMenuBadge>24</SidebarMenuBadge>
+                  )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarSeparator />
-
-        {/* Workspace Section */}
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
-          <SidebarGroupAction title="Add workspace">
-            <Plus className="size-4" />
-            <span className="sr-only">Add workspace</span>
+          <SidebarGroupLabel>Products</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <Plus /> <span className="sr-only">Add Product</span>
           </SidebarGroupAction>
-          <SidebarMenu>
-            {workspaceItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild tooltip={item.title}>
-                  <Link href={item.url} className="flex items-center gap-2">
-                    <item.icon className="size-4" />
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
-
-        {/* Recent Projects - Collapsible */}
-        <Collapsible defaultOpen className="group/collapsible">
-          <SidebarGroup>
-            <SidebarGroupLabel asChild>
-              <CollapsibleTrigger className="flex w-full items-center gap-2 rounded-md p-2 text-sm font-medium hover:bg-sidebar-accent hover:text-sidebar-accent-foreground [&[data-state=open]>svg]:rotate-90">
-                Recent Projects
-                <ChevronRight className="ml-auto size-4 transition-transform" />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {recentProjects.map((project) => (
-                    <SidebarMenuItem key={project.title}>
-                      <SidebarMenuButton asChild tooltip={project.title}>
-                        <Link
-                          href={project.url}
-                          className="flex items-center gap-2"
-                        >
-                          <project.icon className="size-4" />
-                          <span className="truncate">{project.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
-
-        {/* Quick Actions */}
-        <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Settings">
-                  <Link href="/settings" className="flex items-center gap-2">
-                    <Settings className="size-4" />
-                    <span>Settings</span>
+                <SidebarMenuButton asChild>
+                  <Link href="/products">
+                    <Shirt />
+                    See All Products
                   </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <Link href="#">
+                          <Plus />
+                          Add Product
+                        </Link>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <AddProduct />
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <Link href="#">
+                          <Plus />
+                          Add Category
+                        </Link>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <AddCategory />
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Users</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <Plus /> <span className="sr-only">Add User</span>
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/users">
+                    <User />
+                    See All Users
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <Link href="#">
+                          <Plus />
+                          Add User
+                        </Link>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <AddUser />
+                  </Sheet>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Orders / Payments</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <Plus /> <span className="sr-only">Add Order</span>
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/users">
+                    <ShoppingBasket />
+                    See All Transactions
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <SidebarMenuButton asChild>
+                        <Link href="#">
+                          <Plus />
+                          Add Order
+                        </Link>
+                      </SidebarMenuButton>
+                    </SheetTrigger>
+                    <AddOrder />
+                  </Sheet>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      {/* FOOTER */}
-      <SidebarFooter className="border-t border-sidebar-border">
+      <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                >
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    <UserIcon className="size-4" />
-                  </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">John Doe</span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      john@company.com
-                    </span>
-                  </div>
-                  <ChevronUp className="ml-auto size-4" />
+                <SidebarMenuButton>
+                  <User2 /> John Doe <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                side="bottom"
-                align="end"
-                sideOffset={4}
-              >
-                <DropdownMenuItem className="gap-2">
-                  <UserIcon className="size-4" />
-                  Account
-                </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2">
-                  <Settings className="size-4" />
-                  Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem variant="destructive">
-                  <LogOut className="size-4" />
-                  Sign out
-                </DropdownMenuItem>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Account</DropdownMenuItem>
+                <DropdownMenuItem>Setting</DropdownMenuItem>
+                <DropdownMenuItem>Sign out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

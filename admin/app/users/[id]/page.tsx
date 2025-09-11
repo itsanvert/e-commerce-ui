@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Building } from "lucide-react";
 
 // Style the icon using Tailwind CSS classes
 
@@ -43,13 +43,14 @@ import { Separator } from "@/components/ui/separator";
 const UserPage = ({ params }: { params: { username: string } }) => {
   // In a real app, you'd fetch user data based on params.username
   const userData = {
-    name: "John Doe",
+    fullname: "John Doe",
     username: params.username,
     email: "john.doe@gmail.com",
     phone: "+1 234 567 890",
     role: "Admin",
     joinDate: "2025.01.01",
-    location: "San Francisco, CA",
+    address: "123 Main St, San Francisco, CA",
+    city: "San Francisco",
     profileCompletion: 85,
     avatar: "https://github.com/shadcn.png",
     bio: "Experienced software engineer with a passion for building scalable web applications and leading development teams. Always eager to learn new technologies and contribute to open-source projects.",
@@ -88,7 +89,7 @@ const UserPage = ({ params }: { params: { username: string } }) => {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold">{userData.name}</h1>
+          <h1 className="text-3xl font-bold">{userData.fullname}</h1>
           <p className="text-muted-foreground">@{userData.username}</p>
         </div>
       </div>
@@ -102,16 +103,16 @@ const UserPage = ({ params }: { params: { username: string } }) => {
             <CardContent className="p-6">
               <div className="flex flex-col items-center text-center space-y-4">
                 <Avatar className="size-20">
-                  <AvatarImage src={userData.avatar} alt={userData.name} />
+                  <AvatarImage src={userData.avatar} alt={userData.fullname} />
                   <AvatarFallback className="text-lg">
-                    {userData.name
+                    {userData.fullname
                       .split(" ")
                       .map((n) => n[0])
                       .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h2 className="text-xl font-semibold">{userData.name}</h2>
+                  <h2 className="text-xl font-semibold">{userData.fullname}</h2>
                   <p className="text-muted-foreground">@{userData.username}</p>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -120,38 +121,6 @@ const UserPage = ({ params }: { params: { username: string } }) => {
               </div>
             </CardContent>
           </Card>
-
-          {/* User Stats */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Statistics</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <div className="text-2xl font-bold">
-                    {userData.stats.projects}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Projects</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">
-                    {userData.stats.contributions}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Contributions
-                  </div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">
-                    {userData.stats.followers}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Followers</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* User Badges */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -293,20 +262,20 @@ const UserPage = ({ params }: { params: { username: string } }) => {
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <p className="text-sm font-medium">Joined</p>
-                      <p className="text-sm text-muted-foreground">
-                        {userData.joinDate}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
                     <div>
                       <p className="text-sm font-medium">Location</p>
                       <p className="text-sm text-muted-foreground">
-                        {userData.location}
+                        {userData.address}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Building className="h-4 w-4 text-muted-foreground" />
+                    <div>
+                      <p className="text-sm font-medium">City</p>
+                      <p className="text-sm text-muted-foreground">
+                        {userData.city}
                       </p>
                     </div>
                   </div>
@@ -314,12 +283,6 @@ const UserPage = ({ params }: { params: { username: string } }) => {
               </div>
 
               <Separator />
-
-              {/* Role Badge */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">Role:</span>
-                <Badge>{userData.role}</Badge>
-              </div>
             </CardContent>
           </Card>
 
